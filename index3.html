@@ -23,34 +23,39 @@ h1{margin:0;font-size:18px} .sub{font-size:12px;color:var(--muted)}
 
 /* PC버전 버튼 크기 축소 */
 .font-controls{display:flex;gap:4px;align-items:center;flex-wrap:wrap;}
-.font-controls button{height:28px; padding:0 6px; border-radius:6px; border:1px solid var(--line); background:var(--button-bg); color:var(--text); font-weight:800; cursor:pointer; white-space:nowrap; font-size:11px; display:inline-flex; align-items:center; justify-content:center;}
-.font-controls button.active-toggle{background:var(--tab-active-bg);color:var(--tab-active-text);border-color:var(--tab-active-bg);}
-.font-controls #increase-font, .font-controls #decrease-font, .font-controls #themeToggle{width:2px; padding:0; font-size:12px;}
 
-/* 💡 모바일 1열 가로 스와이프 UI 및 극한 여백/자간 압축 */
+/* 💡 핵심 해결 부분: width: auto !important; 추가 */
+.font-controls button{width:auto !important; height:28px; padding:0 6px; border-radius:6px; border:1px solid var(--line); background:var(--button-bg); color:var(--text); font-weight:800; cursor:pointer; white-space:nowrap; font-size:11px; display:inline-flex; align-items:center; justify-content:center;}
+.font-controls button.active-toggle{background:var(--tab-active-bg);color:var(--tab-active-text);border-color:var(--tab-active-bg);}
+.font-controls #increase-font, .font-controls #decrease-font, .font-controls #themeToggle{width:28px !important; padding:0; font-size:12px;}
+
+/* 모바일 1열 가로 스와이프 UI 및 극한 여백/자간 압축 */
 @media(max-width:900px){
   .header-inner{flex-direction:column;align-items:stretch; padding:6px 10px;} 
   .header-left{flex-direction:column;align-items:flex-start;gap:6px;} 
   h1,.sub{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;} 
   h1{font-size:15px;} .sub{font-size:10px;} 
-  .tab-buttons{width:20%;gap:4px} .tab-btn{flex:1;text-align:center;}
+  .tab-buttons{width:100%;gap:4px} .tab-btn{flex:1;text-align:center;}
   
   .font-controls {
     flex-wrap: nowrap; 
     overflow-x: auto;  
     width: 100%; 
-    gap: 3px;          
+    gap: 4px;          
     padding-bottom: 2px;
     -ms-overflow-style: none; scrollbar-width: none; justify-content:flex-start;
   }
   .font-controls::-webkit-scrollbar { display: none; }
+  
+  /* 💡 모바일에서도 width: auto; 강제 적용 */
   .font-controls button { 
-    padding: 0 3px; 
-    font-size: 10px; 
+    width: auto !important;
+    padding: 0 5px; 
+    font-size: 11px; 
     flex-shrink: 0; 
-    letter-spacing: -0.5px; /* 글자 간격 좁히기 */
+    letter-spacing: -0.5px;
   }
-  .font-controls #increase-font, .font-controls #decrease-font, .font-controls #themeToggle { width: 26px; }
+  .font-controls #increase-font, .font-controls #decrease-font, .font-controls #themeToggle { width: 26px !important; }
 }
 
 .tab-content{display:none} .tab-content.active{display:block}
@@ -72,12 +77,12 @@ button{cursor:pointer;font-weight:700;background:var(--button-bg)}
 
 .image-modal{position:fixed;inset:0;background:var(--modal-bg);display:none;align-items:center;justify-content:center;z-index:9999;cursor:zoom-out;} .image-modal img{max-width:95%;max-height:95%;border-radius:8px;box-shadow:0 0 30px rgba(0,0,0,0.6);}
 #backToTopBtn{position:fixed;right:18px;bottom:18px;width:auto;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--button-bg);color:var(--text);font-weight:800;cursor:pointer;box-shadow:var(--shadow);display:none;z-index:999;user-select:none;font-size:12px;} #backToTopBtn:hover{background:var(--button-hover)}
-#aiFabBtn{position:fixed;right:18px;bottom:64px;width:auto;padding:12px 16px;border-radius:999px;border:none;background:linear-gradient(135deg, #19c37d, #0f9f61);color:#fff;font-weight:900;font-size:14px;cursor:pointer;box-shadow:0 8px 24px rgba(25,195,125,0.4);z-index:999;display:flex;align-items:center;gap:8px;transition:transform 0.2s;} #aiFabBtn:hover{transform:scale(1.05);}
+#aiFabBtn{position:fixed;right:18px;bottom:64px;width:auto !important;padding:12px 16px;border-radius:999px;border:none;background:linear-gradient(135deg, #19c37d, #0f9f61);color:#fff;font-weight:900;font-size:14px;cursor:pointer;box-shadow:0 8px 24px rgba(25,195,125,0.4);z-index:999;display:flex;align-items:center;gap:8px;transition:transform 0.2s;} #aiFabBtn:hover{transform:scale(1.05);}
 
-.chip-row{display:flex;flex-wrap:wrap;gap:4px} .chip{width:auto;padding:6px 8px;border-radius:999px;background:var(--chip-bg);border:1px solid var(--chip-border);color:var(--text);font-size:11px;font-weight:700;} .chip:hover{background:var(--chip-hover)} .chip.starred{border-color:rgba(255,213,74,.55)} .empty-chip{font-size:11px;color:var(--muted)}
+.chip-row{display:flex;flex-wrap:wrap;gap:4px} .chip{width:auto !important;padding:6px 8px;border-radius:999px;background:var(--chip-bg);border:1px solid var(--chip-border);color:var(--text);font-size:11px;font-weight:700;} .chip:hover{background:var(--chip-hover)} .chip.starred{border-color:rgba(255,213,74,.55)} .empty-chip{font-size:11px;color:var(--muted)}
 .card-toolbar,.std-card-toolbar{display:flex;justify-content:flex-end;gap:4px;margin-top:8px;flex-wrap:wrap;} .text-preview,.std-preview{display:none;margin-top:6px;color:var(--muted);font-size:12px;line-height:1.4;}
 .card.collapsed .row, .card.collapsed .card-image-wrap, .std-item.collapsed .std-content, .std-item.collapsed .std-apply, .std-item.collapsed .std-image-wrap{display:none;} .card.collapsed .text-preview, .std-item.collapsed .std-preview{display:block;}
-.small-action-btn{width:auto;padding:6px 8px;border-radius:8px;border:1px solid var(--line);background:var(--button-bg-soft);color:var(--text);font-weight:800;font-size:11px;} .small-action-btn.starred{border-color:rgba(255,213,74,.55);color:var(--fav);}
+.small-action-btn{width:auto !important;padding:6px 8px;border-radius:8px;border:1px solid var(--line);background:var(--button-bg-soft);color:var(--text);font-weight:800;font-size:11px;} .small-action-btn.starred{border-color:rgba(255,213,74,.55);color:var(--fav);}
 
 @media(max-width:900px){#search,#date,#stdSearch{font-size:14px;padding:10px;height:40px} #voiceBtn, #stdVoiceBtn{padding:10px;height:40px} #reset, #stdClear{padding:10px;height:40px;}}
 
@@ -92,7 +97,7 @@ button{cursor:pointer;font-weight:700;background:var(--button-bg)}
 @keyframes slideUp{from{transform:translateY(100%);} to{transform:translateY(0);}}
 .ai-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
 .ai-title{font-size:16px;font-weight:900;color:var(--green);display:flex;align-items:center;gap:6px;}
-.fb-close{width:auto;padding:6px 10px;border-radius:8px;border:1px solid var(--line);background:var(--button-bg-soft);color:var(--text);cursor:pointer;font-weight:900;font-size:12px;}
+.fb-close{width:auto !important;padding:6px 10px;border-radius:8px;border:1px solid var(--line);background:var(--button-bg-soft);color:var(--text);cursor:pointer;font-weight:900;font-size:12px;}
 
 /* AI 채팅 영역 */
 .ai-chat-area{background:var(--card);border-radius:14px;padding:12px;min-height:150px;max-height:40vh;overflow-y:auto;border:1px solid var(--line);margin-bottom:12px;display:flex;flex-direction:column;gap:10px;}
@@ -103,7 +108,7 @@ button{cursor:pointer;font-weight:700;background:var(--button-bg)}
 .ai-controls{width:100%;display:flex;flex-direction:column;align-items:stretch;gap:6px;}
 .ai-input-row{display:flex;width:100%;gap:6px;align-items:center;}
 #aiTextInput{flex:1;padding:10px 14px;border-radius:20px;border:1px solid var(--line);background:var(--input-bg);color:var(--text);font-size:13px;}
-#aiSendBtn, .ai-mic-btn{width:40px;height:40px;border-radius:50%;border:none;background:var(--button-bg);color:var(--text);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s;}
+#aiSendBtn, .ai-mic-btn{width:40px !important;height:40px;border-radius:50%;border:none;background:var(--button-bg);color:var(--text);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s;}
 #aiSendBtn{background:var(--green);color:#fff;}
 .ai-mic-btn.recording{background:var(--green);color:#fff;border-color:var(--green);box-shadow:0 0 0 6px rgba(25,195,125,0.2);animation:pulse 1.5s infinite;}
 @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(25,195,125,0.4);} 70%{box-shadow:0 0 0 10px rgba(25,195,125,0);} 100%{box-shadow:0 0 0 0 rgba(25,195,125,0);}}
@@ -147,8 +152,8 @@ button{cursor:pointer;font-weight:700;background:var(--button-bg)}
         <div>
           <div style="display:flex; gap:4px; align-items:center;">
             <input id="search" placeholder="검사항목 or 기준내용 검색">
-            <button id="reset" type="button" title="검색어 지우기" style="width:auto; padding:0 12px; font-size:14px; height:38px;">✕</button>
-            <button id="voiceBtn" type="button" title="음성으로 검색" style="width:auto; padding:0 12px; font-size:14px; height:38px;">🎤</button>
+            <button id="reset" type="button" title="검색어 지우기" style="width:auto !important; padding:0 12px; font-size:14px; height:38px;">✕</button>
+            <button id="voiceBtn" type="button" title="음성으로 검색" style="width:auto !important; padding:0 12px; font-size:14px; height:38px;">🎤</button>
           </div>
           <div id="voiceStatus" style="font-size:11px; margin-top:4px; opacity:0.75; color:var(--muted);"></div>
 
@@ -173,8 +178,8 @@ button{cursor:pointer;font-weight:700;background:var(--button-bg)}
         <div style="text-align:right; font-size:11px; color:var(--muted); margin-bottom:8px; font-weight: 700;">📅 업데이트: 2026.04.07</div>
         <div class="std-toolbar" style="display:flex; gap:4px; align-items:center;">
           <input id="stdSearch" placeholder="표준화자료 검색 (키워드/제목/내용)" />
-          <button id="stdClear" type="button" title="검색어 지우기" style="width:auto; padding:0 12px; font-size:14px; height:38px;">✕</button>
-          <button id="stdVoiceBtn" type="button" title="표준화자료 음성검색" style="width:auto; padding:0 12px; font-size:14px; height:38px;">🎤</button>
+          <button id="stdClear" type="button" title="검색어 지우기" style="width:auto !important; padding:0 12px; font-size:14px; height:38px;">✕</button>
+          <button id="stdVoiceBtn" type="button" title="표준화자료 음성검색" style="width:auto !important; padding:0 12px; font-size:14px; height:38px;">🎤</button>
         </div>
         <div id="stdVoiceStatus"></div>
 
