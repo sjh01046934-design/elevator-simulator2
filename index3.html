@@ -12,17 +12,15 @@ body.light-mode{--bg:#f5f7fb;--bg-grad-1:#ffffff;--bg-grad-2:#eef3fb;--card:#fff
 .wrap{max-width:1200px;margin:0 auto;padding:14px 16px 140px}
 header{position:sticky;top:0;z-index:5;background:linear-gradient(180deg, var(--header-bg-1), var(--header-bg-2));border-bottom:1px solid var(--line);backdrop-filter:blur(6px);}
 
-/* 💡 헤더 패딩 최소화 */
+/* 헤더 패딩 및 구조 압축 */
 .header-inner{max-width:1200px;margin:0 auto;padding:8px 12px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;}
 h1{margin:0;font-size:18px} .sub{font-size:12px;color:var(--muted)}
 .header-left{display:flex;align-items:center;gap:12px;min-width:0;flex-wrap:wrap;} 
-
-/* 탭 버튼 압축 */
 .tab-buttons{display:inline-flex;gap:4px;align-items:center;}
 .tab-btn{padding:6px 10px;border-radius:8px;border:1px solid var(--line);background:var(--button-bg);color:var(--text);font-weight:900;cursor:pointer;white-space:nowrap;font-size:12px;}
 .tab-btn.active{background:var(--tab-active-bg);color:var(--tab-active-text);border-color:var(--tab-active-bg);}
 
-/* 💡 폰트/유틸 컨트롤 버튼을 가장 작게 꽉 압축 (높이 28px) */
+/* 💡 버튼 크기 축소 및 모바일 가로 스크롤 적용 */
 .font-controls{display:flex;gap:4px;align-items:center;flex-wrap:wrap;}
 .font-controls button{height:28px; padding:0 6px; border-radius:6px; border:1px solid var(--line); background:var(--button-bg); color:var(--text); font-weight:800; cursor:pointer; white-space:nowrap; font-size:11px; display:inline-flex; align-items:center; justify-content:center;}
 .font-controls button.active-toggle{background:var(--tab-active-bg);color:var(--tab-active-text);border-color:var(--tab-active-bg);}
@@ -31,10 +29,18 @@ h1{margin:0;font-size:18px} .sub{font-size:12px;color:var(--muted)}
 @media(max-width:900px){
   .header-inner{flex-direction:column;align-items:stretch; padding:6px 10px;} 
   .header-left{flex-direction:column;align-items:flex-start;gap:6px;} 
-  .font-controls{justify-content:flex-start;} 
   h1,.sub{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;} 
   h1{font-size:15px;} .sub{font-size:10px;} 
   .tab-buttons{width:100%;gap:4px} .tab-btn{flex:1;text-align:center;}
+  
+  /* 모바일에서 버튼 일렬 배치 및 여백 깎기 */
+  .font-controls {
+    flex-wrap: nowrap; overflow-x: auto; width: 100%; gap: 3px; padding-bottom: 2px;
+    -ms-overflow-style: none; scrollbar-width: none; justify-content:flex-start;
+  }
+  .font-controls::-webkit-scrollbar { display: none; }
+  .font-controls button { padding: 0 4px; font-size: 10px; flex-shrink: 0; }
+  .font-controls #increase-font, .font-controls #decrease-font, .font-controls #themeToggle { width: 26px; }
 }
 
 .tab-content{display:none} .tab-content.active{display:block}
@@ -210,7 +216,7 @@ button{cursor:pointer;font-weight:700;background:var(--button-bg)}
 
 <script>
 // ==========================================
-// 💡 API 연동 키 적용
+// 💡 API 연동 및 자동 우회 기능 탑재
 // ==========================================
 const GEMINI_API_KEY = "AIzaSyAH78anaUMSYQTboK81YWXP9f0ZEqE8iBo";
 // ==========================================
@@ -555,7 +561,7 @@ window.onscroll=()=>bTop.style.display=(window.scrollY>250&&document.querySelect
 bTop.onclick=()=>{ const t=document.querySelector('.tab-content.active')?.id==='standard'?document.getElementById('stdSearch'):document.getElementById('search'); if(t){t.scrollIntoView({behavior:'smooth',block:'center'}); setTimeout(()=>t.focus(),350);} };
 
 // ==========================================
-// 💡 AI 비서 기능
+// 💡 AI 비서 기능 (실제 API 연동 + 자동 우회 폴백)
 // ==========================================
 (() => {
   const aiModal = document.getElementById('aiModal');
