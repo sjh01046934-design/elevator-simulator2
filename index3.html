@@ -216,7 +216,7 @@ button{cursor:pointer;font-weight:700;background:var(--button-bg)}
 
 <script>
 // ==========================================
-// 💡 API 연동 및 자동 우회 기능 탑재
+// 💡 절대경로 및 API 연동 자동 우회 기능 탑재
 // ==========================================
 const GEMINI_API_KEY = "AIzaSyAH78anaUMSYQTboK81YWXP9f0ZEqE8iBo";
 // ==========================================
@@ -430,8 +430,8 @@ function highlight(t,k){
 function renderImage(img){ return img?`<div style="margin-top:10px"><img src="${img}" style="width:100%;max-width:400px;cursor:zoom-in;border:1px solid var(--img-border);border-radius:8px;" onclick="document.getElementById('modalImage').src='${img}';document.getElementById('imageModal').style.display='flex';" alt=""><div style="margin-top:4px;font-size:12px;color:var(--img-caption);text-align:center">※ 클릭하여 확대</div></div>`:''; }
 function closeImageModal(){ document.getElementById('imageModal').style.display='none'; }
 
-// --- [탭 1] 검사기준 로직 ---
-fetch('./data/criteria.json').then(r=>r.json()).then(j=>{
+// --- [탭 1] 검사기준 로직 (💡 절대 경로 적용) ---
+fetch('https://sjh01046934-design.github.io/elevator-simulator2/data/criteria.json').then(r=>r.json()).then(j=>{
   DATA=j.criteria||[]; DATA.forEach(i=>{if(!TITLE_MAP[i.title])TITLE_MAP[i.title]=[]; TITLE_MAP[i.title].push(i);});
   renderTopics(); renderResults(); updateHeaderBtns();
 }).catch(()=>resultsEl.innerHTML='<div class="card"><div class="title">데이터 로드 실패</div></div>');
@@ -480,10 +480,10 @@ search.oninput=()=>{ renderTopics(); renderResults(); clearTimeout(criteriaTimer
 document.getElementById('reset').onclick=()=>{ search.value=''; dateEl.value=''; appliedOnly=false; updateHeaderBtns(); document.querySelectorAll('#topics input').forEach(c=>c.checked=false); renderTopics(); renderResults(); };
 dateEl.addEventListener('input',renderResults); dateEl.addEventListener('change',renderResults);
 
-// --- [탭 2] 표준화자료 로직 ---
+// --- [탭 2] 표준화자료 로직 (💡 절대 경로 적용) ---
 function initStandardTab(){
   if(stdInitialized) return; stdInitialized=true;
-  fetch('./data/standardization.json').then(r=>r.json()).then(j=>{
+  fetch('https://sjh01046934-design.github.io/elevator-simulator2/data/standardization.json').then(r=>r.json()).then(j=>{
     STD_DATA=Array.isArray(j)?j:(j.standardization||[]); STD_KEYWORD_MAP={};
     STD_DATA.forEach(i=>{ const k=i.keyword||"기타"; if(!STD_KEYWORD_MAP[k])STD_KEYWORD_MAP[k]=[]; STD_KEYWORD_MAP[k].push(i); });
     stdLoaded=true; renderStdTree(); renderStdList();
@@ -561,7 +561,7 @@ window.onscroll=()=>bTop.style.display=(window.scrollY>250&&document.querySelect
 bTop.onclick=()=>{ const t=document.querySelector('.tab-content.active')?.id==='standard'?document.getElementById('stdSearch'):document.getElementById('search'); if(t){t.scrollIntoView({behavior:'smooth',block:'center'}); setTimeout(()=>t.focus(),350);} };
 
 // ==========================================
-// 💡 AI 비서 기능 (실제 API 연동 + 자동 우회 폴백)
+// 💡 AI 비서 기능
 // ==========================================
 (() => {
   const aiModal = document.getElementById('aiModal');
