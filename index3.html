@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI TL - 안전기준 적용 판단 프로그램</title>
+<link rel="icon" href="data:,">
 <style>
 /* CSS 최적화 */
 :root{--bg:#0b1220;--bg-grad-1:#14234a;--bg-grad-2:#0b1220;--card:#111b2e;--card-soft:rgba(17,27,46,.72);--panel-top:rgba(255,255,255,.04);--panel-bottom:rgba(255,255,255,.02);--muted:#9fb0d0;--text:#e7eefc;--green:#19c37d;--red:#ff4d4f;--line:#22314f;--shadow:0 10px 30px rgba(0,0,0,.35);--input-bg:rgba(10,16,30,.55);--button-bg:rgba(22,37,69,.85);--button-bg-soft:rgba(22,37,69,.65);--button-hover:rgba(35,60,105,.95);--header-bg-1:rgba(11,18,32,.98);--header-bg-2:rgba(11,18,32,.92);--tab-bg:rgba(22,37,69,.55);--tab-active-bg:rgba(25,195,125,.95);--tab-active-text:#00120a;--topic-border:rgba(255,255,255,.08);--keyword-border:rgba(255,255,255,.08);--keyword-bg:rgba(10,16,30,.25);--keyword-hover:rgba(255,255,255,.04);--title-list-border:rgba(255,255,255,.06);--title-list-bg:rgba(255,255,255,.02);--title-btn-bg:rgba(255,255,255,.02);--title-btn-hover:rgba(255,255,255,.06);--title-btn-active:rgba(25,195,125,.14);--title-btn-active-border:rgba(25,195,125,.65);--modal-bg:rgba(0,0,0,.85);--fb-overlay:rgba(0,0,0,.72);--fb-box-bg:rgba(17,27,46,.98);--selected-bg:#b6ff5c;--selected-text:#000;--img-caption:#9fb0d0;--img-border:#22314f;--mark-bg:yellow;--mark-text:black;--chip-bg:rgba(255,255,255,.05);--chip-border:rgba(255,255,255,.08);--chip-hover:rgba(255,255,255,.10);--fav:#ffd54a;}
@@ -20,12 +21,13 @@ h1{margin:0;font-size:18px} .sub{font-size:12px;color:var(--muted)}
 .tab-btn{padding:6px 10px;border-radius:8px;border:1px solid var(--line);background:var(--button-bg);color:var(--text);font-weight:900;cursor:pointer;white-space:nowrap;font-size:12px;}
 .tab-btn.active{background:var(--tab-active-bg);color:var(--tab-active-text);border-color:var(--tab-active-bg);}
 
-/* 💡 버튼 크기 축소 및 모바일 가로 스크롤 적용 */
+/* PC버전 버튼 크기 축소 */
 .font-controls{display:flex;gap:4px;align-items:center;flex-wrap:wrap;}
 .font-controls button{height:28px; padding:0 6px; border-radius:6px; border:1px solid var(--line); background:var(--button-bg); color:var(--text); font-weight:800; cursor:pointer; white-space:nowrap; font-size:11px; display:inline-flex; align-items:center; justify-content:center;}
 .font-controls button.active-toggle{background:var(--tab-active-bg);color:var(--tab-active-text);border-color:var(--tab-active-bg);}
 .font-controls #increase-font, .font-controls #decrease-font, .font-controls #themeToggle{width:28px; padding:0; font-size:12px;}
 
+/* 💡 모바일 1열 가로 스와이프 UI 완벽 적용 */
 @media(max-width:900px){
   .header-inner{flex-direction:column;align-items:stretch; padding:6px 10px;} 
   .header-left{flex-direction:column;align-items:flex-start;gap:6px;} 
@@ -33,13 +35,20 @@ h1{margin:0;font-size:18px} .sub{font-size:12px;color:var(--muted)}
   h1{font-size:15px;} .sub{font-size:10px;} 
   .tab-buttons{width:100%;gap:4px} .tab-btn{flex:1;text-align:center;}
   
-  /* 모바일에서 버튼 일렬 배치 및 여백 깎기 */
   .font-controls {
-    flex-wrap: nowrap; overflow-x: auto; width: 100%; gap: 3px; padding-bottom: 2px;
+    flex-wrap: nowrap; /* 줄바꿈 금지 (무조건 일렬 배치) */
+    overflow-x: auto;  /* 가로 스와이프 허용 */
+    width: 100%; 
+    gap: 3px;          /* 버튼 간격 바짝 붙임 */
+    padding-bottom: 2px;
     -ms-overflow-style: none; scrollbar-width: none; justify-content:flex-start;
   }
-  .font-controls::-webkit-scrollbar { display: none; }
-  .font-controls button { padding: 0 4px; font-size: 10px; flex-shrink: 0; }
+  .font-controls::-webkit-scrollbar { display: none; } /* 스크롤바 숨김 */
+  .font-controls button { 
+    padding: 0 4px;    /* 좌우 여백 극한 압축 */
+    font-size: 10px; 
+    flex-shrink: 0;    /* 찌그러짐 방지 */
+  }
   .font-controls #increase-font, .font-controls #decrease-font, .font-controls #themeToggle { width: 26px; }
 }
 
@@ -216,7 +225,7 @@ button{cursor:pointer;font-weight:700;background:var(--button-bg)}
 
 <script>
 // ==========================================
-// 💡 절대경로 및 API 연동 자동 우회 기능 탑재
+// 💡 절대경로 데이터 연결 및 API 자동 우회 적용
 // ==========================================
 const GEMINI_API_KEY = "AIzaSyAH78anaUMSYQTboK81YWXP9f0ZEqE8iBo";
 // ==========================================
@@ -430,7 +439,7 @@ function highlight(t,k){
 function renderImage(img){ return img?`<div style="margin-top:10px"><img src="${img}" style="width:100%;max-width:400px;cursor:zoom-in;border:1px solid var(--img-border);border-radius:8px;" onclick="document.getElementById('modalImage').src='${img}';document.getElementById('imageModal').style.display='flex';" alt=""><div style="margin-top:4px;font-size:12px;color:var(--img-caption);text-align:center">※ 클릭하여 확대</div></div>`:''; }
 function closeImageModal(){ document.getElementById('imageModal').style.display='none'; }
 
-// --- [탭 1] 검사기준 로직 (💡 절대 경로 적용) ---
+// --- [탭 1] 검사기준 로직 (💡 절대경로) ---
 fetch('https://sjh01046934-design.github.io/elevator-simulator2/data/criteria.json').then(r=>r.json()).then(j=>{
   DATA=j.criteria||[]; DATA.forEach(i=>{if(!TITLE_MAP[i.title])TITLE_MAP[i.title]=[]; TITLE_MAP[i.title].push(i);});
   renderTopics(); renderResults(); updateHeaderBtns();
@@ -480,7 +489,7 @@ search.oninput=()=>{ renderTopics(); renderResults(); clearTimeout(criteriaTimer
 document.getElementById('reset').onclick=()=>{ search.value=''; dateEl.value=''; appliedOnly=false; updateHeaderBtns(); document.querySelectorAll('#topics input').forEach(c=>c.checked=false); renderTopics(); renderResults(); };
 dateEl.addEventListener('input',renderResults); dateEl.addEventListener('change',renderResults);
 
-// --- [탭 2] 표준화자료 로직 (💡 절대 경로 적용) ---
+// --- [탭 2] 표준화자료 로직 (💡 절대경로) ---
 function initStandardTab(){
   if(stdInitialized) return; stdInitialized=true;
   fetch('https://sjh01046934-design.github.io/elevator-simulator2/data/standardization.json').then(r=>r.json()).then(j=>{
@@ -561,7 +570,7 @@ window.onscroll=()=>bTop.style.display=(window.scrollY>250&&document.querySelect
 bTop.onclick=()=>{ const t=document.querySelector('.tab-content.active')?.id==='standard'?document.getElementById('stdSearch'):document.getElementById('search'); if(t){t.scrollIntoView({behavior:'smooth',block:'center'}); setTimeout(()=>t.focus(),350);} };
 
 // ==========================================
-// 💡 AI 비서 기능
+// 💡 AI 비서 기능 (API 자동 우회 모델 탐색기 탑재)
 // ==========================================
 (() => {
   const aiModal = document.getElementById('aiModal');
