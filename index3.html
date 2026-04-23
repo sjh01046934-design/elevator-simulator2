@@ -23,13 +23,13 @@ h1{margin:0;font-size:18px} .sub{font-size:12px;color:var(--muted)}
 
 /* PC버전 버튼 크기 축소 */
 .font-controls{display:flex;gap:4px;align-items:center;flex-wrap:wrap;}
-.font-controls button{height:28px; padding:0 6px; border-radius:6px; border:1px solid var(--line); background:var(--button-bg); color:var(--text); font-weight:800; cursor:pointer; white-space:nowrap; font-size:11px; display:inline-flex; align-items:center; justify-content:center;}
+.font-controls button{height:28px; padding:0 2px; border-radius:6px; border:1px solid var(--line); background:var(--button-bg); color:var(--text); font-weight:800; cursor:pointer; white-space:nowrap; font-size:11px; display:inline-flex; align-items:center; justify-content:center;}
 .font-controls button.active-toggle{background:var(--tab-active-bg);color:var(--tab-active-text);border-color:var(--tab-active-bg);}
 .font-controls #increase-font, .font-controls #decrease-font, .font-controls #themeToggle{width:28px; padding:0; font-size:12px;}
 
 /* 💡 모바일 1열 가로 스와이프 UI 완벽 적용 */
 @media(max-width:900px){
-  .header-inner{flex-direction:column;align-items:stretch; padding:6px 10px;} 
+  .header-inner{flex-direction:column;align-items:stretch; padding:1px 10px;} 
   .header-left{flex-direction:column;align-items:flex-start;gap:6px;} 
   h1,.sub{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;} 
   h1{font-size:15px;} .sub{font-size:10px;} 
