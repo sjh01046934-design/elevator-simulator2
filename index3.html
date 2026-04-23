@@ -23,32 +23,32 @@ h1{margin:0;font-size:18px} .sub{font-size:12px;color:var(--muted)}
 
 /* PC버전 버튼 크기 축소 */
 .font-controls{display:flex;gap:4px;align-items:center;flex-wrap:wrap;}
-.font-controls button{height:28px; padding:0 0px; border-radius:6px; border:1px solid var(--line); background:var(--button-bg); color:var(--text); font-weight:800; cursor:pointer; white-space:nowrap; font-size:11px; display:inline-flex; align-items:center; justify-content:center;}
+.font-controls button{height:28px; padding:0 6px; border-radius:6px; border:1px solid var(--line); background:var(--button-bg); color:var(--text); font-weight:800; cursor:pointer; white-space:nowrap; font-size:11px; display:inline-flex; align-items:center; justify-content:center;}
 .font-controls button.active-toggle{background:var(--tab-active-bg);color:var(--tab-active-text);border-color:var(--tab-active-bg);}
 .font-controls #increase-font, .font-controls #decrease-font, .font-controls #themeToggle{width:28px; padding:0; font-size:12px;}
 
-/* 💡 모바일 1열 가로 스와이프 UI 완벽 적용 */
+/* 💡 모바일 1열 가로 스와이프 UI 및 극한 여백/자간 압축 */
 @media(max-width:900px){
-  .header-inner{flex-direction:column;align-items:stretch; padding:0px 10px;} 
+  .header-inner{flex-direction:column;align-items:stretch; padding:6px 10px;} 
   .header-left{flex-direction:column;align-items:flex-start;gap:6px;} 
   h1,.sub{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;} 
   h1{font-size:15px;} .sub{font-size:10px;} 
   .tab-buttons{width:100%;gap:4px} .tab-btn{flex:1;text-align:center;}
   
   .font-controls {
-    flex-wrap: nowrap; /* 줄바꿈 금지 (무조건 일렬 배치) */
-    overflow-x: auto;  /* 가로 스와이프 허용 */
+    flex-wrap: nowrap; 
+    overflow-x: auto;  
     width: 100%; 
-    gap: 3px;          /* 버튼 간격 바짝 붙임 */
+    gap: 3px;          
     padding-bottom: 2px;
     -ms-overflow-style: none; scrollbar-width: none; justify-content:flex-start;
   }
-  .font-controls::-webkit-scrollbar { display: none; } /* 스크롤바 숨김 */
+  .font-controls::-webkit-scrollbar { display: none; }
   .font-controls button { 
-    padding: 0 2px;    /* 좌우 여백 극한 압축 */
+    padding: 0 3px; 
     font-size: 10px; 
-    flex-shrink: 0;
-    letter-spacing: -0.5px;/* 찌그러짐 방지 */
+    flex-shrink: 0; 
+    letter-spacing: -0.5px; /* 글자 간격 좁히기 */
   }
   .font-controls #increase-font, .font-controls #decrease-font, .font-controls #themeToggle { width: 26px; }
 }
@@ -129,9 +129,9 @@ button{cursor:pointer;font-weight:700;background:var(--button-bg)}
     </div>
     <div class="font-controls">
       <button id="headerRecentBtn" type="button" title="최근 검색어">🕒 최근</button>
-      <button id="headerFavBtn" type="button" title="즐겨찾기">⭐ 즐겨찾기</button>
-      <button id="headerAppliedBtn" type="button" title="적용기준">✅ 적용OFF</button>
-      <button id="headerCollapseBtn" type="button" title="내용접기">🔽 접기OFF</button>
+      <button id="headerFavBtn" type="button" title="즐겨찾기">⭐ 목록</button>
+      <button id="headerAppliedBtn" type="button" title="적용기준">✅ 적용</button>
+      <button id="headerCollapseBtn" type="button" title="내용접기">🔽 접기</button>
       <button id="themeToggle" type="button" title="화면 모드 전환">☀️</button>
       <button id="increase-font" type="button" title="글자 크게">A+</button>
       <button id="decrease-font" type="button" title="글자 작게">A−</button>
@@ -272,17 +272,17 @@ function scoreMatch(hayRaw, qRaw){
   return ch+(bh*3);
 }
 
-// --- 헤더 버튼 렌더링 로직 ---
+// --- 💡 헤더 버튼 렌더링 로직 (ON/OFF 텍스트 제거) ---
 function updateHeaderBtns() {
   const isCriteria = document.getElementById('criteria').classList.contains('active');
   headerAppliedBtn.style.display = isCriteria ? 'inline-flex' : 'none';
   
   const isCollapsed = isCriteria ? criteriaCollapseAll : stdCollapseAll;
   headerCollapseBtn.classList.toggle('active-toggle', isCollapsed);
-  headerCollapseBtn.textContent = isCollapsed ? '🔽 접기 ON' : '🔽 접기 OFF';
+  headerCollapseBtn.textContent = isCollapsed ? '🔽 펼치기' : '🔽 접기';
   
   headerAppliedBtn.classList.toggle('active-toggle', appliedOnly);
-  headerAppliedBtn.textContent = appliedOnly ? '✅ 적용 ON' : '✅ 적용 OFF';
+  headerAppliedBtn.textContent = appliedOnly ? '✅ 해제' : '✅ 적용';
 }
 
 headerAppliedBtn.onclick = () => {
